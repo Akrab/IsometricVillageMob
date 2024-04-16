@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/IsometricVillageMob/Scenes/Lobby.unity
+    guid: 6e2ed7da4d7307844baa128eac3f1e50
+  - enabled: 1
+    path: Assets/IsometricVillageMob/Scenes/UI.unity
+    guid: c84fc58d0f08e5c4f93b9d80e5c58ca8
+  - enabled: 1
+    path: Assets/IsometricVillageMob/Scenes/Game.unity
+    guid: 49ac27702fe9db945b3ee37a11d164eb
+  m_configObjects: {}
