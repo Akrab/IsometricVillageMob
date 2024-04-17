@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace IsometricVillageMob.IsometricVillageMob.UI
+namespace IsometricVillageMob.UI
 {
     public interface IForm
     {

@@ -1,17 +1,18 @@
-﻿using System;
+﻿
 using DG.Tweening;
+using IsometricVillageMob.DIIsometric;
 using UnityEngine;
 
-namespace IsometricVillageMob.IsometricVillageMob.UI
+namespace IsometricVillageMob.UI
 {
-    public abstract class BaseForm : MonoBehaviour
+    public abstract class BaseForm : MonoBehaviour, IForm
     {
 
         private const float DURATION = 0.25f;
 
         private bool _isSetup = false;
 
-        //[Inject] protected DiContainer _diContainer;
+        [Inject] protected DiContainer _diContainer;
         [SerializeField] protected CanvasGroup _canvasGroup;
         [SerializeField] protected Canvas _canvas;
         [SerializeField] protected RectTransform _rectTransform;
@@ -35,7 +36,7 @@ namespace IsometricVillageMob.IsometricVillageMob.UI
         {
             _canvasGroup = GetComponent<CanvasGroup>();
             _canvas = GetComponent<Canvas>();
-            _rectTransform= GetComponent<RectTransform>();
+            _rectTransform = GetComponent<RectTransform>();
         }
 #endif
         public void Setup()

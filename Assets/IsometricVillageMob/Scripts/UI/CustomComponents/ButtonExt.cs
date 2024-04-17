@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IsometricVillageMob.IsometricVillageMob.UI.CustomComponents
+namespace IsometricVillageMob.UI.CustomComponents
 {
     public class ButtonExt : Button
     {

@@ -1,4 +1,4 @@
-﻿namespace IsometricVillageMob.IsometricVillageMob.UI.Forms
+﻿namespace IsometricVillageMob.UI.Forms
 {
     public class MarketForm : BaseForm
     {
