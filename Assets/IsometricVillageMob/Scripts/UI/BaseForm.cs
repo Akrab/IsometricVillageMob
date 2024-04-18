@@ -1,6 +1,7 @@
 ﻿
 using DG.Tweening;
 using IsometricVillageMob.DIIsometric;
+using IsometricVillageMob.Infrastructure;
 using UnityEngine;
 
 namespace IsometricVillageMob.UI
@@ -13,6 +14,7 @@ namespace IsometricVillageMob.UI
         private bool _isSetup = false;
 
         [Inject] protected DiContainer _diContainer;
+        [Inject] protected IGameStateMachine _gameStateMachine;
         [SerializeField] protected CanvasGroup _canvasGroup;
         [SerializeField] protected Canvas _canvas;
         [SerializeField] protected RectTransform _rectTransform;

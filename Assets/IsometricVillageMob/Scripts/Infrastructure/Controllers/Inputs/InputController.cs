@@ -1,15 +1,21 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
 {
-    public class InputController : MonoBehaviour
+    public class ClickEvent : UnityEvent <Transform> {}
+    public interface IInputController
     {
-        [SerializeField]
+        void AddListener(UnityAction<Transform> action);
+        void RemoveListener(UnityAction<Transform> action);
+    }
+    public class InputController : ITickable, IInputController
+    {
         private LayerMask _layerMask;
         private IInput _input;
         private Camera _camera;
-        
+        private ClickEvent _event = new ();
         private Camera Camera
         {
             get
@@ -19,7 +25,7 @@ namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
             }
         }
 
-        private void Awake()
+        public InputController()
         {
 #if UNITY_EDITOR || UNITY_STANDALONE
             _input = new MouseInput();
@@ -28,25 +34,36 @@ namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
 #if UNITY_ANDROID && !UNITY_EDITOR
             _input = new TouchInput();
 #endif
-            _camera = Camera.main;
+            
+            _layerMask = LayerMask.GetMask(CONSTANTS.BUILDER_CLICK_LAYER_MASK);
         }
 
-        private void Update()
+        public void AddListener(UnityAction<Transform> action)
+        {
+            _event.AddListener(action);
+        }
+
+        public void Tick()
         {
             if (!Camera) return;
             if (!_input.Clicked) return;
-
+            
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             
             var hit = Physics2D.GetRayIntersection(Camera.ScreenPointToRay(_input.Get()), float.PositiveInfinity, _layerMask);
             if (hit.collider)
             {
-                Debug.LogError(hit.collider.transform.name);
+                _event?.Invoke(hit.collider.transform);
             }
-            // var hit = Physics2D.Raycast(_input.Get(), Vector2.zero);
-            // if (hit.collider)
-            // {
-            //     Debug.LogError(hit.collider.transform.name);
-            // }
+
         }
+
+        public void RemoveListener(UnityAction<Transform> action)
+        {
+            _event.RemoveListener(action);
+        }
+
+
     }
 }

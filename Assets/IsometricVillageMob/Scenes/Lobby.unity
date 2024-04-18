@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1597741634}
   - component: {fileID: 1597741633}
-  - component: {fileID: 1597741635}
   - component: {fileID: 1597741636}
   m_Layer: 0
   m_Name: LobbyInstaller
@@ -155,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateController: {fileID: 1597741636}
-  _inputController: {fileID: 1597741635}
 --- !u!4 &1597741634
 Transform:
   m_ObjectHideFlags: 0
@@ -165,27 +163,12 @@ Transform:
   m_GameObject: {fileID: 1597741632}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.302356, y: 5.828186, z: -18.905878}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1775138324}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1597741635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597741632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0817ab017857446eb2812b606cd48def, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1597741636
 MonoBehaviour:
   m_ObjectHideFlags: 0

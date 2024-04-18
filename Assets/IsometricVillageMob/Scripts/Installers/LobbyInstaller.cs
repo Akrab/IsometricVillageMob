@@ -7,24 +7,27 @@ using IsometricVillageMob.Infrastructure.Containers;
 using IsometricVillageMob.Infrastructure.States;
 using UnityEngine;
 
-
 namespace IsometricVillageMob.Installers
 {
     public class LobbyInstaller : MonoInstaller
     {
         [SerializeField]
         private UpdateController _updateController;
-        [SerializeField]
-        private InputController _inputController;
-        private TimerController _timerController;
 
 
         private void InstallControllers()
         {
             _diContainer.BindInstance(_updateController);
-            _diContainer.BindNew<TimerController>(out _timerController);
-            _updateController.Add(_timerController);
+            _diContainer.BindNew<TimerController>(out var timerController);
+            _diContainer.BindNew<InputController>(out var inputController)
+                .BindInterface<IInputController>(inputController);
+            _diContainer.BindNew<SelectBuildingController>();
+            
+            _updateController.Add(timerController);
+            _updateController.Add(inputController);
+
         }
+        
         private void InstallContainers()
         {
             _diContainer.BindNew<UIContainer>(out var uiContainer);
@@ -52,6 +55,7 @@ namespace IsometricVillageMob.Installers
             InstallContainers();
             InstallGameStateMachine();
 
+            _diContainer.Resolve<SelectBuildingController>().Init();
             _diContainer.Resolve<IGameStateMachine>().EnterToState<LoadingGState>();
         }
         

@@ -4,7 +4,7 @@ namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
 {
     public class MouseInput : IInput
     {
-        public bool Clicked => Input.GetMouseButtonDown(0);
+        public bool Clicked => Input.GetMouseButtonUp(0);
 
         public Vector2 Get()
         {
