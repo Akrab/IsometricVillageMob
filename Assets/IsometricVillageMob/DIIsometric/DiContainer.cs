@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace IsometricVillageMob.DIIsometric
 {
     public interface IContainer
     {
+        bool ContainsResolve(Type target);
         object Resolve(Type target);
     }
     public class DiContainer: IContainer
@@ -40,6 +42,7 @@ namespace IsometricVillageMob.DIIsometric
         public DiContainer Inject(object data)
         {
             Injector.Inject(data, this);
+            Injector.InjectDuty(this);
             return this;
         }
 
@@ -60,6 +63,11 @@ namespace IsometricVillageMob.DIIsometric
         {
             obj = new T();
             BindInstance(obj);
+            return this;
+        }
+        public DiContainer BindNew<T>() where T : new()
+        {
+            BindNew<T>(out T obj);
             return this;
         }
 
@@ -83,6 +91,11 @@ namespace IsometricVillageMob.DIIsometric
         public object Resolve(Type target)
         {
             return _resolvers.TryGetValue(target, out var resolver) ? resolver.Resolve() : null;
+        }
+
+        public bool ContainsResolve(Type target)
+        {
+            return _resolvers.ContainsKey(target);
         }
 
         public T Resolve<T>() where T: class 
