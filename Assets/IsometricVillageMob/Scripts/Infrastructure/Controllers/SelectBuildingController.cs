@@ -23,6 +23,7 @@ namespace IsometricVillageMob.Infrastructure.Controllers
             var form = GetForm(building.BuildingType);
             if (form == null) return;
 
+            (form as IBuildingForm)?.Bind(building);
             form.Show();
 
         }
@@ -41,7 +42,8 @@ namespace IsometricVillageMob.Infrastructure.Controllers
                 default: return null;
             }
         }
-        
+
+
         public void Init()
         {
             _inputController.AddListener(Click);

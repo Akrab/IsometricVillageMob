@@ -7,5 +7,9 @@ namespace IsometricVillageMob.Game.Building
     public class ManufactureBuilding : BaseBuilding
     {
         public override BuildingType BuildingType => BuildingType.Manufacture;
+        public override void Init()
+        {
+            
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using IsometricVillageMob.Game.Building;
 using IsometricVillageMob.UI.CustomComponents;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace IsometricVillageMob.UI.Forms
 {
-    public class MarketForm : BaseContentForm
+    public class MarketForm : BaseContentForm,IBuildingForm 
     {
         [SerializeField] private ButtonExt _btnSell;
         [SerializeField] private ButtonExt _btnSelectResource;
@@ -14,8 +15,7 @@ namespace IsometricVillageMob.UI.Forms
         [SerializeField] private Image _resourceSelectedIco;
 
         [SerializeField] private TextMeshProUGUI _priceText;
-        
-        [SerializeField] private RectTransform _contentRoot;
+
         
         private void OnSell()
         {
@@ -36,6 +36,10 @@ namespace IsometricVillageMob.UI.Forms
             _resourceSelectedIco.enabled = false;
             _priceText.text = "0";
         }
-        
+
+        public void Bind(IBuilding building)
+        {
+          
+        }
     }
 }

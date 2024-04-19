@@ -1,9 +1,10 @@
-﻿using IsometricVillageMob.UI.CustomComponents;
+﻿using IsometricVillageMob.Game.Building;
+using IsometricVillageMob.UI.CustomComponents;
 using UnityEngine;
 
 namespace IsometricVillageMob.UI.Forms
 {
-    public class ManufactureForm : BaseContentForm
+    public class ManufactureForm : BaseContentForm, IBuildingForm
     {
         [SerializeField] private ResourceSlotView[] _slots;
         [SerializeField] private ResourceSlotView _resultSlot;
@@ -21,5 +22,9 @@ namespace IsometricVillageMob.UI.Forms
             // _priceText.text = "0";
         }
 
+        public void Bind(IBuilding building)
+        {
+            
+        }
     }
 }

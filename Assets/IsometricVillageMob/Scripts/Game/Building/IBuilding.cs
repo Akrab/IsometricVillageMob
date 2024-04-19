@@ -4,4 +4,6 @@
     {
         BuildingType BuildingType { get; } 
     }
+
+    
 }

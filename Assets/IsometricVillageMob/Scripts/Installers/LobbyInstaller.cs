@@ -4,7 +4,9 @@ using IsometricVillageMob.Infrastructure.Controllers.Timers;
 using IsometricVillageMob.DIIsometric;
 using IsometricVillageMob.Infrastructure;
 using IsometricVillageMob.Infrastructure.Containers;
+using IsometricVillageMob.Infrastructure.SaveLoad;
 using IsometricVillageMob.Infrastructure.States;
+using IsometricVillageMob.Services;
 using UnityEngine;
 
 namespace IsometricVillageMob.Installers
@@ -14,23 +16,34 @@ namespace IsometricVillageMob.Installers
         [SerializeField]
         private UpdateController _updateController;
 
+        private SaveLoadService _saveLoadService;
+      
 
         private void InstallControllers()
         {
             _diContainer.BindInstance(_updateController);
             _diContainer.BindNew<TimerController>(out var timerController);
+            _diContainer.BindInterface<ITimerController>(timerController);
             _diContainer.BindNew<InputController>(out var inputController)
                 .BindInterface<IInputController>(inputController);
             _diContainer.BindNew<SelectBuildingController>();
             
             _updateController.Add(timerController);
             _updateController.Add(inputController);
-
+            
+            _diContainer.BindNew<WorldCreateController>();
         }
         
         private void InstallContainers()
         {
-            _diContainer.BindNew<UIContainer>(out var uiContainer);
+            _diContainer.BindNew<UIContainer>();
+        }
+
+        private void InstallServices()
+        {
+            var rs = new ResourceSrv();
+            _diContainer.BindInterface<IResourceService>(rs);
+
         }
         
         private void InstallGameStateMachine()
@@ -51,13 +64,28 @@ namespace IsometricVillageMob.Installers
         
         public override void InstallBindings()
         {
+            _saveLoadService = new SaveLoadService();
+            
             InstallControllers();
             InstallContainers();
+            InstallServices();
             InstallGameStateMachine();
-
+            
             _diContainer.Resolve<SelectBuildingController>().Init();
             _diContainer.Resolve<IGameStateMachine>().EnterToState<LoadingGState>();
+            
+            _diContainer.Resolve<TimerController>().RunTimers();
         }
-        
+
+        private void OnApplicationQuit()
+        {
+            _saveLoadService?.Save();
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+                _saveLoadService?.Save();
+        }
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3082499881831019901}
   - component: {fileID: 3917448831846188365}
   - component: {fileID: 7802612493935849744}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Market
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077515638208658305}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.63, y: -4.5, z: -0.03681952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2261671938475502312}
   - component: {fileID: 4813551512749505718}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}

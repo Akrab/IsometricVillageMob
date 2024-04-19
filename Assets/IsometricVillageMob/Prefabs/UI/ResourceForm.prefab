@@ -273,7 +273,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &3885668416837084403
 MonoBehaviour:
@@ -342,13 +342,13 @@ MonoBehaviour:
   _canvasGroup: {fileID: 1676873860032118019}
   _canvas: {fileID: 7164094253027285690}
   _rectTransform: {fileID: 9105530610122637962}
+  _contentRoot: {fileID: 5994308908118109814}
   _btnClose: {fileID: 1093132883801216155}
   _btnStart: {fileID: 7979515613370351773}
   _btnStop: {fileID: 177248877384887955}
   _resourceSlotView: {fileID: 7081656699564257918}
   _resourceSlotClick: {fileID: 3350492803552400716}
   _durationText: {fileID: 1002132852502556122}
-  _contentRoot: {fileID: 5994308908118109814}
 --- !u!1 &1119898174661736407
 GameObject:
   m_ObjectHideFlags: 0

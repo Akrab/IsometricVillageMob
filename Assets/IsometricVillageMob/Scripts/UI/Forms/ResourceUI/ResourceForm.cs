@@ -1,11 +1,13 @@
-﻿using IsometricVillageMob.UI.CustomComponents;
+﻿using DG.Tweening;
+using IsometricVillageMob.Game.Building;
+using IsometricVillageMob.UI.CustomComponents;
 using TMPro;
 using UnityEngine;
 
 
 namespace IsometricVillageMob.UI.Forms
 {
-    public class ResourceForm : BaseContentForm
+    public sealed class ResourceForm : BaseContentForm, IBuildingForm
     {
         [SerializeField] private ButtonExt _btnStart;
         [SerializeField] private ButtonExt _btnStop;
@@ -14,6 +16,8 @@ namespace IsometricVillageMob.UI.Forms
         [SerializeField] private ResourceSlotClick _resourceSlotClick;
         [SerializeField] private TextMeshProUGUI _durationText;
 
+        private IResourceBuilding _resourceBuilding;
+        
         private void OnStart()
         {
 
@@ -28,6 +32,8 @@ namespace IsometricVillageMob.UI.Forms
         {
 
         }
+        
+        //private void 
 
         protected override void setup()
         {
@@ -39,5 +45,17 @@ namespace IsometricVillageMob.UI.Forms
 
         }
 
+        public override Tween Show(bool instance = false)
+        {
+            _btnStart.gameObject.SetActive(!_resourceBuilding.IsRun);
+            _btnStop.gameObject.SetActive(_resourceBuilding.IsRun);
+
+            return base.Show(instance);
+        }
+
+        public void Bind(IBuilding building)
+        {
+            _resourceBuilding = building as IResourceBuilding;
+        }
     }
 }

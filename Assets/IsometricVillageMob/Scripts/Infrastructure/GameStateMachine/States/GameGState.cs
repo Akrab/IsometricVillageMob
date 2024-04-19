@@ -10,6 +10,7 @@ namespace IsometricVillageMob.Infrastructure.States
         public void Enter(object data = null)
         {
             _uiContainer.GetForm<CurrencyForm>().Show();
+         //   _uiContainer.GetForm<StorageForm>().Show();
         }
 
         public void Exit()
