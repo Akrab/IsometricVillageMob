@@ -101,5 +101,9 @@ namespace IsometricVillageMob.UI
             _canvasGroup.interactable = true;
         }
 
+        public virtual void Init()
+        {
+
+        }
     }
 }

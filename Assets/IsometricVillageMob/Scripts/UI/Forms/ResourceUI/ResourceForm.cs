@@ -20,21 +20,24 @@ namespace IsometricVillageMob.UI.Forms
         
         private void OnStart()
         {
-
+            _resourceBuilding?.StartBuild();
         }
 
         private void OnStop()
         {
-
+            _resourceBuilding?.StopBuild();
         }
 
         private void OnSelectResource(ResourceSlotClick slotClick)
         {
-
+            if (_resourceBuilding?.IsRun == false)
+            {
+                _resourceBuilding?.NextResource();
+                UpdateSlotView();
+            }
+       
         }
         
-        //private void 
-
         protected override void setup()
         {
             _btnClose.onClick.AddListener(OnClose);
@@ -47,15 +50,40 @@ namespace IsometricVillageMob.UI.Forms
 
         public override Tween Show(bool instance = false)
         {
+
+            UpdateBtnsView();
+            UpdateSlotView();
+            return base.Show(instance);
+        }
+
+        private void UpdateBtnsView()
+        {
             _btnStart.gameObject.SetActive(!_resourceBuilding.IsRun);
             _btnStop.gameObject.SetActive(_resourceBuilding.IsRun);
+        }
 
-            return base.Show(instance);
+        private void UpdateSlotView()
+        {
+            _resourceSlotView.SetViewData(_resourceBuilding.GetViewData());
+        }
+
+        private void TickTimer(float value)
+        {
+            
+        }
+
+        public override Tween Hide(bool instance = false)
+        {
+            
+            _resourceBuilding?.DelTimerListener();
+            return base.Hide(instance);
+            
         }
 
         public void Bind(IBuilding building)
         {
             _resourceBuilding = building as IResourceBuilding;
+            _resourceBuilding?.AddTimerListener(TickTimer);
         }
     }
 }

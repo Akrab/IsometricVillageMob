@@ -33,5 +33,11 @@ namespace IsometricVillageMob.Editor
             EditorSceneManager.OpenScene("Assets/IsometricVillageMob/Scenes/Game.unity");
             EditorApplication.isPlaying = false;
         }
+        
+        [MenuItem("IsometricVillageMob/Clear Prefs")]
+        private static void CliearPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

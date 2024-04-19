@@ -11,5 +11,6 @@ namespace IsometricVillageMob.UI
         Tween Hide(bool instance = false);
         void Disable();
         void Enable();
+        void Init();
     }
 }

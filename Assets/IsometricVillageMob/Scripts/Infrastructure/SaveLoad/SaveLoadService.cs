@@ -7,6 +7,8 @@ namespace IsometricVillageMob.Infrastructure.SaveLoad
     {
         private PlayerInventory _playerInventory = new();
 
+        public IPlayerInventory PlayerInventory => _playerInventory;
+
         public SaveLoadService()
         {
             _playerInventory.Load();

@@ -1,4 +1,5 @@
-﻿using IsometricVillageMob.Infrastructure.Controllers;
+﻿using Infrastructure.SaveLoad.Player;
+using IsometricVillageMob.Infrastructure.Controllers;
 using IsometricVillageMob.Infrastructure.Controllers.Inputs;
 using IsometricVillageMob.Infrastructure.Controllers.Timers;
 using IsometricVillageMob.DIIsometric;
@@ -65,7 +66,7 @@ namespace IsometricVillageMob.Installers
         public override void InstallBindings()
         {
             _saveLoadService = new SaveLoadService();
-            
+            _diContainer.BindInterface<IPlayerInventory>(_saveLoadService.PlayerInventory);
             InstallControllers();
             InstallContainers();
             InstallServices();

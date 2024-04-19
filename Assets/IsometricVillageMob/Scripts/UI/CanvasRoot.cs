@@ -14,6 +14,7 @@ namespace IsometricVillageMob.UI
             foreach (var form in forms)
             {
                 _diContainer.Inject(form);
+                form.Init();
                 form.Disable();
             }
 

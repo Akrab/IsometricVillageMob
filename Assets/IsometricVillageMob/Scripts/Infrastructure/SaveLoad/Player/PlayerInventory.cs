@@ -18,6 +18,8 @@ namespace Infrastructure.SaveLoad.Player
         void AddResource(ResourceType resourceType, int value = 1);
         void AddCurrency(CurrencyType currencyType, int value = 1);
         void AddItem(ItemType itemType, int value = 1);
+
+        void AddListener<T>(UnityAction<T, int> callback) where T : Enum;
     }
 
     public class PlayerInventory : IPlayerInventory
@@ -33,7 +35,7 @@ namespace Infrastructure.SaveLoad.Player
         {
             var values = (T[])Enum.GetValues(typeof(T));
 
-            for (int i = 1; i < values.Length; i++)
+            for (int i = 0; i < values.Length -1; i++)
             {
                 var provider = new PrefsProvider(values[i].ToString());
                 data.Add(values[i], provider);
@@ -93,6 +95,23 @@ namespace Infrastructure.SaveLoad.Player
         public void AddItem(ItemType itemType, int value = 1)
         {
             SetItem(itemType, GetItem(itemType) + value);
+        }
+        
+
+        public void AddListener<T>(UnityAction<T, int> callback) where T : Enum
+        {
+            if (typeof(T) == typeof(ResourceType))
+            {
+                _updateResourceListeners +=   callback as UnityAction<ResourceType, int>;
+            }
+            if (typeof(T) == typeof(CurrencyType))
+            {
+                _updateCurrencyListeners +=   callback as UnityAction<CurrencyType, int>;
+            }
+            if (typeof(T) == typeof(ItemType))
+            {
+                _updateItemListeners +=   callback as UnityAction<ItemType, int>;
+            }
         }
     }
 }
