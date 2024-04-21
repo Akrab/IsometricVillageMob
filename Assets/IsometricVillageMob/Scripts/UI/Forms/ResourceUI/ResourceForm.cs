@@ -4,7 +4,6 @@ using IsometricVillageMob.UI.CustomComponents;
 using TMPro;
 using UnityEngine;
 
-
 namespace IsometricVillageMob.UI.Forms
 {
     public sealed class ResourceForm : BaseContentForm, IBuildingForm
@@ -54,7 +53,6 @@ namespace IsometricVillageMob.UI.Forms
 
         public override Tween Show(bool instance = false)
         {
-
             UpdateBtnsView();
             UpdateSlotView();
             return base.Show(instance);
@@ -69,7 +67,7 @@ namespace IsometricVillageMob.UI.Forms
         private void UpdateSlotView()
         {
             var viewData = _resourceBuilding.ViewData;
-            _resourceSlotView.SetViewData(viewData);
+            _resourceSlotView.SetViewData(viewData.ResourceModel);
             _resName.text = viewData.Name;
             _durationText.text = viewData.Duration.ToString();
             _resName.enabled = _durationText.enabled = !viewData.IsEmpty;

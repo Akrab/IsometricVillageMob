@@ -1,9 +1,10 @@
-﻿using IsometricVillageMob.RuntimeData;
+﻿using IsometricVillageMob.DataModel;
+using IsometricVillageMob.RuntimeData;
 
 namespace IsometricVillageMob.UI.Forms
 {
     public interface IResourceSlotView
     {
-        void SetViewData(IResourceBuildingViewModel data);
+        void SetViewData(IResourceModel data);
     }
 }

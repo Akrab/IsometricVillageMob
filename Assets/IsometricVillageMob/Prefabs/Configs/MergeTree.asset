@@ -12,4 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53ff969992e46b4968fd8050dfaf42b, type: 3}
   m_Name: MergeTree
   m_EditorClassIdentifier: 
-  _nodeBases: []
+  _data:
+  - _item: 0
+    _duration: 3
+    _resources:
+    - _resource: 0
+      _count: 1
+    - _resource: 1
+      _count: 1
+  - _item: 1
+    _duration: 2
+    _resources:
+    - _resource: 0
+      _count: 1
+    - _resource: 2
+      _count: 1
+  - _item: 2
+    _duration: 2
+    _resources:
+    - _resource: 1
+      _count: 1
+    - _resource: 2
+      _count: 1

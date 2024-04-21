@@ -14,13 +14,14 @@ namespace IsometricVillageMob.RuntimeData
         public Sprite Icon { get; }
         public float Duration { get; }
         public ResourceType CurrentResource { get; }
+        public IResourceModel ResourceModel { get; }
     }
 
     public class ResourceBuildingModel : IResourceBuildingViewModel
     {
         public ResourceNext ResourceNext = new ();
         
-        public IResourceModel ResourceModel;
+        public IResourceModel ResourceModel { get; set; }
         public bool IsEmpty => ResourceModel == null;
         public string Name => ResourceModel?.Name ?? "";
         public Sprite Icon => ResourceModel?.Icon;

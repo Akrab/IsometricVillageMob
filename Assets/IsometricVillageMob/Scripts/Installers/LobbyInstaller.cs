@@ -9,6 +9,7 @@ using IsometricVillageMob.Infrastructure.Containers;
 using IsometricVillageMob.Infrastructure.SaveLoad;
 using IsometricVillageMob.Infrastructure.States;
 using IsometricVillageMob.IsometricVillageMob.Scripts.Services.Items;
+using IsometricVillageMob.IsometricVillageMob.Scripts.Services.MergeTree;
 using IsometricVillageMob.Services;
 using UnityEngine;
 
@@ -58,6 +59,8 @@ namespace IsometricVillageMob.Installers
             _diContainer.BindInterface<IItemService>(new ItemService(modelContainer));
             _diContainer.BindInterface<IResourceService>(new ResourceService(modelContainer));
             _diContainer.BindInterface<ICurrencyService>(new CurrencyService(modelContainer));
+            _diContainer.BindInterface<IMergeTreeService>(new MergeTreeService(modelContainer));
+            
 
         }
         

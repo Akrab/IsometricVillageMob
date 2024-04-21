@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using IsometricVillageMob.DataModel.Merge.MergeTree;
 using IsometricVillageMob.Game;
 using IsometricVillageMob.Infrastructure.Containers;
@@ -25,7 +24,6 @@ namespace IsometricVillageMob.IsometricVillageMob.Scripts.Services.MergeTree
                 _models.Add(new MergeTreeModel<TreeData>(item));
         }
 
-
         public IReadOnlyList<IMergeTree> GetMergeTrees()
         {
             return _models;
@@ -38,7 +36,10 @@ namespace IsometricVillageMob.IsometricVillageMob.Scripts.Services.MergeTree
 
         public IMergeTree Get(ResourceType r1, ResourceType r2)
         {
-            return _models.Find(D => D.Resource.Contains(r1) && D.Resource.Contains(r2));
+            return  _models.Find(D =>
+                (D.Resource[0].Resource == r1 && D.Resource[1].Resource == r2) || 
+                (D.Resource[1].Resource == r1 && D.Resource[0].Resource == r2)
+            );
         }
     }
 }

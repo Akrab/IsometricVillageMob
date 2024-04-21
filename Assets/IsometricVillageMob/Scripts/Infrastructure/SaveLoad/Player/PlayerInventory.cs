@@ -19,6 +19,8 @@ namespace Infrastructure.SaveLoad.Player
         void AddCurrency(CurrencyType currencyType, int value = 1);
         void AddItem(ItemType itemType, int value = 1);
 
+        void SubResource(ResourceType resourceType, int value = 1);
+
         void AddListener<T>(UnityAction<T, int> callback) where T : Enum;
     }
 
@@ -96,7 +98,12 @@ namespace Infrastructure.SaveLoad.Player
         {
             SetItem(itemType, GetItem(itemType) + value);
         }
-        
+
+        public void SubResource(ResourceType resourceType, int value = 1)
+        {
+            SetResource(resourceType, GetResource(resourceType) - value);
+        }
+
 
         public void AddListener<T>(UnityAction<T, int> callback) where T : Enum
         {

@@ -8,6 +8,7 @@ namespace IsometricVillageMob.DataModel.Items
         ItemType ItemType { get; }
         Sprite Icon { get; }
         public int Cost { get; }
+        public string Name{ get; }
     }
     
     public class ItemModel<T> : IItemModel where T : ItemData
@@ -16,6 +17,7 @@ namespace IsometricVillageMob.DataModel.Items
         public ItemType ItemType => _data.ItemType;
         public Sprite Icon => _data.Icon;
         public int Cost => _data.Cost;
+        public string Name  => _data.Name;
 
         public ItemModel(T data)
         {
