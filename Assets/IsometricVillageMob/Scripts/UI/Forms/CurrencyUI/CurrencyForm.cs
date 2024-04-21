@@ -4,6 +4,7 @@ using DG.Tweening;
 using Infrastructure.SaveLoad.Player;
 using IsometricVillageMob.DIIsometric;
 using IsometricVillageMob.Game;
+using IsometricVillageMob.Services;
 using IsometricVillageMob.UI.Forms.Currency;
 using IsometricVillageMob.UI.Forms.CurrencyUI;
 using UnityEngine;
@@ -16,6 +17,9 @@ namespace IsometricVillageMob.UI.Forms
 
         [Inject] private IPlayerInventory _playerInventory;
 
+        [Inject] private IResourceService _resourceService;
+        [Inject] private ICurrencyService _currencyService;
+
         private Dictionary<ResourceType, ResourceView> _resourceViews = new(3);
 
         public override void Init()
@@ -26,8 +30,11 @@ namespace IsometricVillageMob.UI.Forms
             var types = (ResourceType[])Enum.GetValues(typeof(ResourceType));
             for (int i = 0; i < types.Length - 1; i++)
             {
+                slots[i].SetIcon(_resourceService.Get(types[i]).Icon);
                 _resourceViews.Add(types[i], slots[i]);
             }
+
+            _currencyView.SetIcon(_currencyService.Get(CurrencyType.Gold).Icon);
             
             _playerInventory.AddListener<ResourceType>(ResourceUpdate);
             _playerInventory.AddListener<CurrencyType>(CurrencyUpdate);

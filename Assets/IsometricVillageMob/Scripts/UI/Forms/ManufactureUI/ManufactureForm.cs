@@ -11,7 +11,8 @@ namespace IsometricVillageMob.UI.Forms
         
         [SerializeField] private ButtonExt _btnStart;
         [SerializeField] private ButtonExt _btnStop;
-        
+
+        private IManufactureBuilding _manufactureBuilding;
         protected override void setup()
         {
             _btnClose.onClick.AddListener(OnClose);
@@ -24,7 +25,7 @@ namespace IsometricVillageMob.UI.Forms
 
         public void Bind(IBuilding building)
         {
-            
+            _manufactureBuilding = building as IManufactureBuilding;
         }
     }
 }

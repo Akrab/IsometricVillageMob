@@ -1,4 +1,5 @@
 ﻿using Infrastructure.SaveLoad.Player;
+using IsometricVillageMob.DataModel;
 using IsometricVillageMob.Infrastructure.Controllers;
 using IsometricVillageMob.Infrastructure.Controllers.Inputs;
 using IsometricVillageMob.Infrastructure.Controllers.Timers;
@@ -7,6 +8,7 @@ using IsometricVillageMob.Infrastructure;
 using IsometricVillageMob.Infrastructure.Containers;
 using IsometricVillageMob.Infrastructure.SaveLoad;
 using IsometricVillageMob.Infrastructure.States;
+using IsometricVillageMob.IsometricVillageMob.Scripts.Services.Items;
 using IsometricVillageMob.Services;
 using UnityEngine;
 
@@ -17,9 +19,10 @@ namespace IsometricVillageMob.Installers
         [SerializeField]
         private UpdateController _updateController;
 
+        [SerializeField] private BaseModel[] _models;
         private SaveLoadService _saveLoadService;
-      
-
+        
+        
         private void InstallControllers()
         {
             _diContainer.BindInstance(_updateController);
@@ -34,16 +37,27 @@ namespace IsometricVillageMob.Installers
             
             _diContainer.BindNew<WorldCreateController>();
         }
-        
+
         private void InstallContainers()
         {
             _diContainer.BindNew<UIContainer>();
+
+            _diContainer.BindNew<ModelContainer>(out var modelContainer);
+            foreach (var model in _models)
+                modelContainer.Add(model);
+
         }
 
         private void InstallServices()
         {
-            var rs = new ResourceSrv();
-            _diContainer.BindInterface<IResourceService>(rs);
+            var rs = new ResourceLoadSrv();
+            _diContainer.BindInterface<IResourceLoadService>(rs);
+
+            var modelContainer = _diContainer.Resolve<ModelContainer>();
+
+            _diContainer.BindInterface<IItemService>(new ItemService(modelContainer));
+            _diContainer.BindInterface<IResourceService>(new ResourceService(modelContainer));
+            _diContainer.BindInterface<ICurrencyService>(new CurrencyService(modelContainer));
 
         }
         

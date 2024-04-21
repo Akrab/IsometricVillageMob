@@ -11,10 +11,10 @@ namespace IsometricVillageMob.UI.Forms
        
         [SerializeField] private Image _icon;
         
-        public void SetViewData(ResourceViewData data)
+        public void SetViewData(IResourceBuildingViewModel data)
         {
-            _iconRt.gameObject.SetActive(data.Sprite != null);
-            _icon.sprite = data.Sprite;
+            _iconRt.gameObject.SetActive(!data.IsEmpty);
+            _icon.sprite = data.Icon;
         }
     }
 }

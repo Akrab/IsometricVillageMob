@@ -154,6 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateController: {fileID: 1597741636}
+  _models:
+  - {fileID: 11400000, guid: a342a59e4fa228a4eb19564290bab746, type: 2}
+  - {fileID: 11400000, guid: 47f68cc965941a3419829917db41fefe, type: 2}
+  - {fileID: 11400000, guid: 1bbffe5c069495149a4964ec1ef2c94d, type: 2}
 --- !u!4 &1597741634
 Transform:
   m_ObjectHideFlags: 0

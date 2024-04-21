@@ -4,6 +4,6 @@ namespace IsometricVillageMob.UI.Forms
 {
     public interface IResourceSlotView
     {
-        void SetViewData(ResourceViewData data);
+        void SetViewData(IResourceBuildingViewModel data);
     }
 }

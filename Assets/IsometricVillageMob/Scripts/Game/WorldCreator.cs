@@ -9,7 +9,7 @@ namespace IsometricVillageMob.Game
     public class WorldCreator : MonoBehaviour
     {
         [Inject] private DiContainer _diContainer;
-        [Inject] private IResourceService _resourceService;
+        [Inject] private IResourceLoadService _resourceLoadService;
         [SerializeField] private SpawnPoint[] _spawnPoints;
         
         public void Create()
@@ -17,7 +17,7 @@ namespace IsometricVillageMob.Game
             foreach (var point in _spawnPoints)
             {
                 //TODO: need used fabric 
-                var prefab = _resourceService.LoadBuilding(point.BuildingType);
+                var prefab = _resourceLoadService.LoadBuilding(point.BuildingType);
                 var newObj = Instantiate(prefab, transform);
                 newObj.transform.position = point.transform.position;
                 var bb = newObj.GetComponent<BaseBuilding>();

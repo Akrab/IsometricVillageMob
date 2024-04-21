@@ -15,17 +15,20 @@ namespace IsometricVillageMob.UI.Forms
         [SerializeField] private ResourceSlotView _resourceSlotView;
         [SerializeField] private ResourceSlotClick _resourceSlotClick;
         [SerializeField] private TextMeshProUGUI _durationText;
-
+        [SerializeField] private TextMeshProUGUI _resName;
+        
         private IResourceBuilding _resourceBuilding;
         
         private void OnStart()
         {
             _resourceBuilding?.StartBuild();
+            UpdateBtnsView();
         }
 
         private void OnStop()
         {
             _resourceBuilding?.StopBuild();
+            UpdateBtnsView();
         }
 
         private void OnSelectResource(ResourceSlotClick slotClick)
@@ -45,6 +48,7 @@ namespace IsometricVillageMob.UI.Forms
             _btnStop.onClick.AddListener(OnStop);
             _resourceSlotClick.AddListener(OnSelectResource);
             _durationText.enabled = false;
+            _resName.enabled = false;
 
         }
 
@@ -64,7 +68,11 @@ namespace IsometricVillageMob.UI.Forms
 
         private void UpdateSlotView()
         {
-            _resourceSlotView.SetViewData(_resourceBuilding.GetViewData());
+            var viewData = _resourceBuilding.ViewData;
+            _resourceSlotView.SetViewData(viewData);
+            _resName.text = viewData.Name;
+            _durationText.text = viewData.Duration.ToString();
+            _resName.enabled = _durationText.enabled = !viewData.IsEmpty;
         }
 
         private void TickTimer(float value)
@@ -74,10 +82,8 @@ namespace IsometricVillageMob.UI.Forms
 
         public override Tween Hide(bool instance = false)
         {
-            
             _resourceBuilding?.DelTimerListener();
             return base.Hide(instance);
-            
         }
 
         public void Bind(IBuilding building)

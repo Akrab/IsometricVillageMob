@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace IsometricVillageMob.Services
 {
-    public interface IResourceService
+    public interface IResourceLoadService
     {
         GameObject LoadBuilding(BuildingType buildingType);
     }
     
-    public class ResourceSrv : IResourceService
+    public class ResourceLoadSrv : IResourceLoadService
     {
         public GameObject LoadBuilding(BuildingType buildingType)
         {

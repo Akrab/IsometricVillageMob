@@ -14,5 +14,10 @@ namespace IsometricVillageMob.UI.Forms.CurrencyUI
         {
             _value.text = value.ToString();
         }
+
+        public void SetIcon(Sprite icon)
+        {
+            _icon.sprite = icon;
+        }
     }
 }
