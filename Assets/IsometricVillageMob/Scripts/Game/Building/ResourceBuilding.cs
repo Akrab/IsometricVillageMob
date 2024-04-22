@@ -36,12 +36,13 @@ namespace IsometricVillageMob.Game.Building
 
         private void OnDestroy()
         {
+            _timerController?.RemoveTimer(_timer);
             _playerInventory.SubListener(this);
         }
         
         private void CreateResource()
         {
-            _timerController?.RemoveTimer(_timer);
+      
             _playerInventory?.AddResource(_resourceBuildingModel.CurrentResource);
         }
         
