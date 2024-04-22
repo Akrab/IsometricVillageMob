@@ -1,3 +1,4 @@
+using System;
 using Infrastructure.SaveLoad.Player;
 using IsometricVillageMob.DIIsometric;
 using IsometricVillageMob.Infrastructure.Controllers.Timers;
@@ -9,7 +10,7 @@ namespace IsometricVillageMob.Game.Building
 {
     public interface IResourceBuilding
     {
-        IResourceBuildingViewModel ViewData { get; }
+        IResourceBuildingViewModel ViewModel { get; }
         bool IsRun { get; }
 
         void StartBuild();
@@ -31,11 +32,17 @@ namespace IsometricVillageMob.Game.Building
         private Timer _timer;
         public override BuildingType BuildingType => BuildingType.Resource;
         public bool IsRun { get; private set; } = false;
-        public IResourceBuildingViewModel ViewData => _resourceBuildingModel;
+        public IResourceBuildingViewModel ViewModel => _resourceBuildingModel;
 
+        private void OnDestroy()
+        {
+            _playerInventory.SubListener(this);
+        }
+        
         private void CreateResource()
         {
-            _playerInventory.AddResource(_resourceBuildingModel.CurrentResource);
+            _timerController?.RemoveTimer(_timer);
+            _playerInventory?.AddResource(_resourceBuildingModel.CurrentResource);
         }
         
         private void TimerTick(float value)
@@ -74,7 +81,7 @@ namespace IsometricVillageMob.Game.Building
 
         public void NextResource()
         {
-            _resourceBuildingModel.ResourceModel = _resourceService.Get(_resourceBuildingModel.ResourceNext.Next());
+            _resourceBuildingModel.ResourceModel = _resourceService.Get(_resourceBuildingModel.EnumNextValue.Next());
         }
 
         public override void Init()
@@ -82,6 +89,6 @@ namespace IsometricVillageMob.Game.Building
             _timer = new Timer(TimerTick, TimerCompleted);
             _timerController.AddTimer(_timer);
         }
-
+        
     }
 }

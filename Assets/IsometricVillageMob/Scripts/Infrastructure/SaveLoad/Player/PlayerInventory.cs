@@ -2,26 +2,39 @@
 using System.Collections.Generic;
 using IsometricVillageMob.Game;
 using IsometricVillageMob.Infrastructure.SaveLoad;
-using UnityEngine.Events;
+using UnityEngine;
 
 namespace Infrastructure.SaveLoad.Player
 {
+    public interface ICurrencyListener
+    {
+        void UpdateCurrency(CurrencyType currencyType, int newValue);
+    }
+    
+    public interface IItemListener
+    {
+        void UpdateItem(ItemType itemType, int newValue);
+    }
+    public interface IResourceListener
+    {
+        void UpdateResource(ResourceType resourceType, int newValue);
+    }
+    
     public interface IPlayerInventory
     {
         int GetResource(ResourceType target);
         int GetCurrency(CurrencyType target);
         int GetItem(ItemType target);
-
-        void SetResource(ResourceType target, int value);
-        void SetCurrency(CurrencyType target, int value);
-        void SetItem(ItemType target, int value);
+        
         void AddResource(ResourceType resourceType, int value = 1);
         void AddCurrency(CurrencyType currencyType, int value = 1);
         void AddItem(ItemType itemType, int value = 1);
 
         void SubResource(ResourceType resourceType, int value = 1);
-
-        void AddListener<T>(UnityAction<T, int> callback) where T : Enum;
+        void AddListener(object obj);
+        void SubListener(object obj);
+        void SubItem(ItemType itemModelItemType, int value = 1);
+        void Clear();
     }
 
     public class PlayerInventory : IPlayerInventory
@@ -29,10 +42,11 @@ namespace Infrastructure.SaveLoad.Player
         private Dictionary<ResourceType, PrefsProvider> _resources = new();
         private Dictionary<CurrencyType, PrefsProvider> _currencies = new();
         private Dictionary<ItemType, PrefsProvider> _items = new();
+        
+        private List<ICurrencyListener> _currencyListeners = new List<ICurrencyListener>();
+        private List<IResourceListener> _resourceListeners = new List<IResourceListener>();
+        private List<IItemListener> _itemListeners = new List<IItemListener>();
 
-        private UnityAction<ResourceType, int> _updateResourceListeners;
-        private UnityAction<CurrencyType, int> _updateCurrencyListeners;
-        private UnityAction<ItemType, int> _updateItemListeners;
         private void ReadPrefs<T>(Dictionary<T, PrefsProvider> data) where T : Enum
         {
             var values = (T[])Enum.GetValues(typeof(T));
@@ -43,7 +57,7 @@ namespace Infrastructure.SaveLoad.Player
                 data.Add(values[i], provider);
             }
         }
-
+        
         public void Load()
         {
             ReadPrefs<ResourceType>(_resources);
@@ -68,20 +82,40 @@ namespace Infrastructure.SaveLoad.Player
 
         public void SetResource(ResourceType target, int value)
         {
+ 
             _resources[target].Set(value);
-            _updateResourceListeners?.Invoke(target, value);
+            
+            for (int i = 0; i < _resourceListeners.Count; i++)
+            {
+                if(_resourceListeners[i] != null)
+                    _resourceListeners[i].UpdateResource(target, value);
+            }
+
         }
 
         public void SetCurrency(CurrencyType target, int value)
         {
+      
             _currencies[target].Set(value);
-            _updateCurrencyListeners?.Invoke(target, value);
+
+            for (int i = 0; i < _currencyListeners.Count; i++)
+            {
+                if(_currencyListeners[i] != null)
+                    _currencyListeners[i].UpdateCurrency(target, value);
+            }
+
         }
 
         public void SetItem(ItemType target, int value)
         {
+          
             _items[target].Set(value);
-            _updateItemListeners?.Invoke(target, value);
+
+            for (int i = 0; i < _itemListeners.Count; i++)
+            {
+                if (_itemListeners[i] != null)
+                    _itemListeners[i].UpdateItem(target, value);
+            }
         }
 
         public void AddResource(ResourceType resourceType, int value = 1)
@@ -104,21 +138,35 @@ namespace Infrastructure.SaveLoad.Player
             SetResource(resourceType, GetResource(resourceType) - value);
         }
 
-
-        public void AddListener<T>(UnityAction<T, int> callback) where T : Enum
+        public void SubListener(object obj)
         {
-            if (typeof(T) == typeof(ResourceType))
-            {
-                _updateResourceListeners +=   callback as UnityAction<ResourceType, int>;
-            }
-            if (typeof(T) == typeof(CurrencyType))
-            {
-                _updateCurrencyListeners +=   callback as UnityAction<CurrencyType, int>;
-            }
-            if (typeof(T) == typeof(ItemType))
-            {
-                _updateItemListeners +=   callback as UnityAction<ItemType, int>;
-            }
+            if (obj is ICurrencyListener cl) _currencyListeners.Remove(cl);
+            if (obj is IItemListener il) _itemListeners.Remove(il);
+            if (obj is IResourceListener rl) _resourceListeners.Remove(rl);
+        }
+
+        public void SubItem(ItemType itemModelItemType, int value = 1)
+        {
+            SetItem(itemModelItemType, GetItem(itemModelItemType) - value);
+        }
+
+        public void Clear()
+        {
+            foreach (var item in _resources.Values)
+                item.Set(0);
+
+            foreach (var item in _currencies.Values)
+                item.Set(0);
+            
+            foreach (var item in _items.Values)
+                item.Set(0);
+        }
+        
+        public void AddListener(object obj)
+        {
+            if (obj is ICurrencyListener cl) _currencyListeners.Add(cl);
+            if (obj is IItemListener il) _itemListeners.Add(il);
+            if (obj is IResourceListener rl) _resourceListeners.Add(rl);
         }
     }
 }

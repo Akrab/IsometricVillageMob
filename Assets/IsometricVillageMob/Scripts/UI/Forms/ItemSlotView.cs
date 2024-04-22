@@ -1,4 +1,5 @@
 ﻿using IsometricVillageMob.DataModel.Items;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,5 +17,7 @@ namespace IsometricVillageMob.UI.Forms
             _iconRt.gameObject.SetActive(data != null);
             _icon.sprite = data?.Icon;
         }
+
+
     }
 }

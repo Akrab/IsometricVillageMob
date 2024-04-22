@@ -66,7 +66,7 @@ namespace IsometricVillageMob.UI.Forms
 
         private void UpdateSlotView()
         {
-            var viewData = _resourceBuilding.ViewData;
+            var viewData = _resourceBuilding.ViewModel;
             _resourceSlotView.SetViewData(viewData.ResourceModel);
             _resName.text = viewData.Name;
             _durationText.text = viewData.Duration.ToString();

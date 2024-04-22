@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
@@ -24,6 +25,14 @@ namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
                 return _camera;
             }
         }
+        
+        private bool IsPointerOverUIObject(Vector2 pos) {
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = pos;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
+        }
 
         public InputController()
         {
@@ -47,8 +56,8 @@ namespace IsometricVillageMob.Infrastructure.Controllers.Inputs
         {
             if (!Camera) return;
             if (!_input.Clicked) return;
-            
-            if (EventSystem.current.IsPointerOverGameObject())
+ 
+            if (IsPointerOverUIObject(_input.Get()))
                 return;
             
             var hit = Physics2D.GetRayIntersection(Camera.ScreenPointToRay(_input.Get()), float.PositiveInfinity, _layerMask);

@@ -10,6 +10,7 @@ using IsometricVillageMob.Infrastructure.SaveLoad;
 using IsometricVillageMob.Infrastructure.States;
 using IsometricVillageMob.IsometricVillageMob.Scripts.Services.Items;
 using IsometricVillageMob.IsometricVillageMob.Scripts.Services.MergeTree;
+using IsometricVillageMob.RuntimeData;
 using IsometricVillageMob.Services;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace IsometricVillageMob.Installers
         private UpdateController _updateController;
 
         [SerializeField] private BaseModel[] _models;
+        
+        [SerializeField] private ScriptableObject[] _configs;
         private SaveLoadService _saveLoadService;
         
         
@@ -46,6 +49,13 @@ namespace IsometricVillageMob.Installers
             _diContainer.BindNew<ModelContainer>(out var modelContainer);
             foreach (var model in _models)
                 modelContainer.Add(model);
+
+        }
+
+        private void InstallConfigs()
+        {
+            foreach (var config in _configs)
+                _diContainer.BindInstance(config);
 
         }
 
@@ -78,12 +88,17 @@ namespace IsometricVillageMob.Installers
             _diContainer.BindNew<GameGState>(out var gameGState);
             stateMachine.AddState(gameGState);
             
+            _diContainer.BindNew<WinGState>(out var winGState);
+            stateMachine.AddState(winGState);
+            
         }
         
         public override void InstallBindings()
         {
+            _diContainer.BindNew<RuntimeContainer>();
             _saveLoadService = new SaveLoadService();
             _diContainer.BindInterface<IPlayerInventory>(_saveLoadService.PlayerInventory);
+            InstallConfigs();
             InstallControllers();
             InstallContainers();
             InstallServices();
@@ -92,7 +107,6 @@ namespace IsometricVillageMob.Installers
             _diContainer.Resolve<SelectBuildingController>().Init();
             _diContainer.Resolve<IGameStateMachine>().EnterToState<LoadingGState>();
             
-            _diContainer.Resolve<TimerController>().RunTimers();
         }
 
         private void OnApplicationQuit()

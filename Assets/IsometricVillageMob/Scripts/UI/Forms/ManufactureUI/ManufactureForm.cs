@@ -29,15 +29,15 @@ namespace IsometricVillageMob.UI.Forms
 
         private void UpdateView()
         {
-            _itemName.enabled = !_manufactureBuilding.ViewData.IsEmpty;
-            _itemName.text = _manufactureBuilding.ViewData.ItemModel?.Name;
-            _durationText.enabled = !_manufactureBuilding.ViewData.IsEmpty;
-            _durationText.text = _manufactureBuilding.ViewData.Duration.ToString();
+            _itemName.enabled = !_manufactureBuilding.ViewModel.IsEmpty;
+            _itemName.text = _manufactureBuilding.ViewModel.ItemModel?.Name;
+            _durationText.enabled = !_manufactureBuilding.ViewModel.IsEmpty;
+            _durationText.text = _manufactureBuilding.ViewModel.Duration.ToString();
             
             for(int i = 0; i < _slots.Length; i++)
-                _slots[i].SetViewData(_manufactureBuilding.ViewData.ResourceModel(i));
+                _slots[i].SetViewData(_manufactureBuilding.ViewModel.ResourceModel(i));
 
-            _resultSlot.SetViewData(_manufactureBuilding.ViewData.ItemModel);
+            _resultSlot.SetViewData(_manufactureBuilding.ViewModel.ItemModel);
         }
 
         private void UpdateUI()

@@ -19,7 +19,7 @@ namespace IsometricVillageMob.RuntimeData
 
     public class ResourceBuildingModel : IResourceBuildingViewModel
     {
-        public ResourceNext ResourceNext = new ();
+        public EnumNextValue<ResourceType> EnumNextValue = new ();
         
         public IResourceModel ResourceModel { get; set; }
         public bool IsEmpty => ResourceModel == null;

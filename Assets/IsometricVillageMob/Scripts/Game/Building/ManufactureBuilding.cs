@@ -12,7 +12,7 @@ namespace IsometricVillageMob.Game.Building
     public interface IManufactureBuilding
     {
         bool IsRun { get; }
-        IManufactureBuildingModel ViewData { get; }
+        IManufactureBuildingModel ViewModel { get; }
         void StartBuild();
 
         void StopBuild();
@@ -23,7 +23,7 @@ namespace IsometricVillageMob.Game.Building
         void DelUpdateListener();
     }
 
-    public class ManufactureBuilding : BaseBuilding, IManufactureBuilding
+    public class ManufactureBuilding : BaseBuilding, IManufactureBuilding, IResourceListener
     {
 
         [Inject] private IMergeTreeService _mergeTreeService;
@@ -35,10 +35,16 @@ namespace IsometricVillageMob.Game.Building
         private ManufactureBuildingModel _manufactureBuildingModel = new ManufactureBuildingModel();
         public override BuildingType BuildingType => BuildingType.Manufacture;
         public bool IsRun { get; private set; }
-        public IManufactureBuildingModel ViewData => _manufactureBuildingModel;
+        public IManufactureBuildingModel ViewModel => _manufactureBuildingModel;
 
         private Timer _timer;
-        private UnityAction _updateUI ;
+        private UnityAction _uiListener ;
+        
+        private void OnDestroy()
+        {
+            _timerController?.RemoveTimer(_timer);
+            _playerInventory?.SubListener(this);
+        }
         
         private void TimerTick(float value)
         {
@@ -53,7 +59,7 @@ namespace IsometricVillageMob.Game.Building
             {
                 StopBuild();
             }
-            _updateUI?.Invoke();
+            _uiListener?.Invoke();
         }
 
         private void CreateItem()
@@ -65,12 +71,7 @@ namespace IsometricVillageMob.Game.Building
             _playerInventory.SubResource(_manufactureBuildingModel.MergeTree.Resource[1].Resource,
                 _manufactureBuildingModel.MergeTree.Resource[1].Count);
         }
-
-        private void UpdateResource(ResourceType resourceType, int count)
-        {
-            _updateUI?.Invoke();
-        }
-
+        
         private bool HaveResources()
         {
 
@@ -96,9 +97,13 @@ namespace IsometricVillageMob.Game.Building
             _manufactureBuildingModel.MergeTree = null;
             _manufactureBuildingModel.ItemModel = null;
             
-            _playerInventory.AddListener<ResourceType>(UpdateResource);
+            _playerInventory.AddListener(this);
         }
 
+        public void UpdateResource(ResourceType resourceType, int count)
+        {
+            _uiListener?.Invoke();
+        }
         public void StartBuild()
         {
             if(IsRun || _manufactureBuildingModel.IsEmpty) return;
@@ -124,9 +129,9 @@ namespace IsometricVillageMob.Game.Building
         {
             
             if(IsRun) return;
-            
+
             _manufactureBuildingModel.ResourceModels[index] =
-                _resourceService.Get(_manufactureBuildingModel.ResourceNext[index].Next());
+                _resourceService.Get( _manufactureBuildingModel.ResourceNext[index].Next());
 
             _manufactureBuildingModel.MergeTree = _mergeTreeService
                 .Get(_manufactureBuildingModel.ResourceModel(0)?.ResourceType ?? ResourceType.None,
@@ -139,12 +144,12 @@ namespace IsometricVillageMob.Game.Building
 
         public void AddUpdateListener(UnityAction action)
         {
-            _updateUI = action;
+            _uiListener = action;
         }
 
         public void DelUpdateListener()
         {
-            _updateUI = null;
+            _uiListener = null;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace IsometricVillageMob.Game
 {
 
-    public enum BuildingType 
+    public enum BuildingType
     {
         None = -1,
         Resource,

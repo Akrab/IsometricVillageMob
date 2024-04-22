@@ -1,5 +1,6 @@
 using IsometricVillageMob.DIIsometric;
 using IsometricVillageMob.Game.Building;
+using IsometricVillageMob.RuntimeData;
 using IsometricVillageMob.Services;
 using UnityEngine;
 
@@ -10,11 +11,25 @@ namespace IsometricVillageMob.Game
     {
         [Inject] private DiContainer _diContainer;
         [Inject] private IResourceLoadService _resourceLoadService;
-        [SerializeField] private SpawnPoint[] _spawnPoints;
+        [Inject] private RuntimeContainer _runtimeContainer;
+        [SerializeField] private SpawnPoint[] _spawnPointsThree;
+        [SerializeField] private SpawnPoint[] _spawnPointsTwo;
+        [SerializeField] private SpawnPoint[] _spawnPointsOne;
+
+        private SpawnPoint[] GetPoints()
+        {
+            switch (_runtimeContainer.ResourceCountMode)
+            {
+                case ResourceCountMode.Two: return _spawnPointsTwo;
+                case ResourceCountMode.Three: return _spawnPointsThree;
+                default: return _spawnPointsOne;
+            }
+        }
         
         public void Create()
         {
-            foreach (var point in _spawnPoints)
+            var points = GetPoints();
+            foreach (var point in points)
             {
                 //TODO: need used fabric 
                 var prefab = _resourceLoadService.LoadBuilding(point.BuildingType);

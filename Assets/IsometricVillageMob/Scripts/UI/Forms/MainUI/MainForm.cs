@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using IsometricVillageMob.DIIsometric;
 using IsometricVillageMob.Infrastructure;
 using IsometricVillageMob.Infrastructure.States;
+using IsometricVillageMob.RuntimeData;
 using IsometricVillageMob.UI.CustomComponents;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,12 +14,16 @@ namespace IsometricVillageMob.UI.Forms
     public class MainForm : BaseForm
     {
         [Inject] private IGameStateMachine _gameStateMachine;
+        
+        [Inject] private RuntimeContainer _runtimeContainer;
         [SerializeField] private ToggleGroup _toggleGroup;
         [SerializeField] private Toggle[] _toggles;
         [SerializeField] private ButtonExt _startBtn;
 
         private void OnClickStart()
         {
+            var index = Array.IndexOf(_toggles, _toggleGroup.GetFirstActiveToggle());
+            _runtimeContainer.ResourceCountMode = (ResourceCountMode)index;
             StartCoroutine(ToGame());
         }
 

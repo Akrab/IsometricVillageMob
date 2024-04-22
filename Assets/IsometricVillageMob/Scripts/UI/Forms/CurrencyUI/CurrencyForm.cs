@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace IsometricVillageMob.UI.Forms
 {
-    public class CurrencyForm : BaseForm
+    public class CurrencyForm : BaseForm, ICurrencyListener, IResourceListener
     {
         [SerializeField] private CurrencyView _currencyView;
 
@@ -24,7 +24,6 @@ namespace IsometricVillageMob.UI.Forms
 
         public override void Init()
         {
-
             var slots = GetComponentsInChildren<ResourceView>();
 
             var types = (ResourceType[])Enum.GetValues(typeof(ResourceType));
@@ -36,23 +35,10 @@ namespace IsometricVillageMob.UI.Forms
 
             _currencyView.SetIcon(_currencyService.Get(CurrencyType.Gold).Icon);
             
-            _playerInventory.AddListener<ResourceType>(ResourceUpdate);
-            _playerInventory.AddListener<CurrencyType>(CurrencyUpdate);
-        }
+            _playerInventory.AddListener(this);
 
-        private void ResourceUpdate(ResourceType resourceType, int value)
-        {
-            if (_resourceViews.TryGetValue(resourceType, out var view))
-            {
-                view.SetValue(value);
-            }
         }
-
-        private void CurrencyUpdate(CurrencyType currencyType, int value)
-        {
-            _currencyView.SetValue(value);
-        }
-
+        
         public override Tween Show(bool instance = false)
         {
 
@@ -62,6 +48,19 @@ namespace IsometricVillageMob.UI.Forms
             }
             _currencyView.SetValue(_playerInventory.GetCurrency(CurrencyType.Gold));
             return base.Show(instance);
+        }
+
+        public void UpdateCurrency(CurrencyType currencyType, int newValue)
+        {
+            _currencyView.SetValue(newValue);
+        }
+
+        public void UpdateResource(ResourceType resourceType, int newValue)
+        {
+            if (_resourceViews.TryGetValue(resourceType, out var view))
+            {
+                view.SetValue(newValue);
+            }
         }
     }
 }

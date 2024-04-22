@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using IsometricVillageMob.DataModel;
+﻿using IsometricVillageMob.DataModel;
 using IsometricVillageMob.DataModel.Items;
 using IsometricVillageMob.DataModel.Merge.MergeTree;
 using IsometricVillageMob.Game;
@@ -24,9 +23,7 @@ namespace IsometricVillageMob.RuntimeData
         public IItemModel ItemModel { get; set; }
         public IResourceModel[] ResourceModels = new IResourceModel[2] ;
 
-        public ResourceNext[] ResourceNext = new[] { new ResourceNext(), new ResourceNext() };
-        //public ResourceType[] SelectResources = new[] { ResourceType.None, ResourceType.None };
-        
+        public EnumNextValue<ResourceType>[] ResourceNext = new[] { new EnumNextValue<ResourceType>(), new EnumNextValue<ResourceType>() };
         public ItemType ItemType => MergeTree?.ItemType ?? ItemType.None;
         public float Duration => MergeTree?.Duration ?? 0;
         public Sprite Icon => ItemModel?.Icon;
