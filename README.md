@@ -1,4 +1,4 @@
-Пример игры 2д игры.</br>
+Пример 2д игры.</br>
 Без использований сторонних технологий (только DOTween для анимации).</br>
 </br>
 
@@ -28,7 +28,7 @@
 | ![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/af159c85-a8b1-48b0-b6f7-3dd02d82475e)| ![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/b4ac4051-ea21-42fb-82c0-6eba9eeb295c) |![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/70971daa-9a9a-4ac0-b4e8-2f52423fdbae)
 
 UI Зданий:
-|  Ресурсного  |  Фабрики | Магазина |
+|  Ресурсное |  Фабрика | Магазин |
 | ---         |    ---       |         ---  |
 | ![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/1cd517d1-b1dc-47c7-aca5-7d79dc7b5b87)|![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/32aca9b9-8670-4400-a12e-f97b8a83a5e6) | ![image](https://github.com/Akrab/IsometricVillageMob/assets/7695655/2b336f09-dbba-4f66-9841-ed03e4a15d3e)
 
